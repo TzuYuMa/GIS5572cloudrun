@@ -24,3 +24,10 @@ steps:
 timeout: 1200s
 images:
   - '$_GCR_HOSTNAME/$PROJECT_ID/$_SERVICE_NAME:$COMMIT_SHA'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  # 或者您也可以设置日志存储桶
+  # logsBucket: 'my-logs-bucket'
+
+serviceAccount: 'my-service-account@my-project.iam.gserviceaccount.com'
