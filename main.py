@@ -21,7 +21,7 @@ def hello_world(): #function that app.route decorator references
   return response
 
 def hello():
-  return "GIS 5572 Lab 1"
+  return "GIS 5572 Lab 1 pleaseeeeeee"
 
 # Route to retrieve polygon as GeoJSON
 @app.route('/getgeojson', methods=['GET'])
