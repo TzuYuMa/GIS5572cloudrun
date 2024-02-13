@@ -26,40 +26,36 @@ def hello():
 # Route to retrieve polygon as GeoJSON
 @app.route('/getgeojson', methods=['GET'])
 def get_geojson():
-    try:
-        # Connect to the database
-        connection = psycopg2.connect(**pgSQL_connect)
-        cursor = connection.cursor()
+    # Connect to the database
+    connection = psycopg2.connect(**pgSQL_connect)
+    cursor = connection.cursor()
 
-        # Query to retrieve polygon as GeoJSON
-        query = "SELECT ST_AsGeoJSON(geometry) FROM polygon_lab1;"
-        cursor.execute(query)
-        rows = cursor.fetchall()
+    # Query to retrieve polygon as GeoJSON
+    query = "SELECT ST_AsGeoJSON(geometry) FROM polygon_lab1;"
+    cursor.execute(query)
+    rows = cursor.fetchall()
 
-        # Close database connection
-        cursor.close()
-        connection.close()
+    # Close database connection
+    cursor.close()
+    connection.close()
 
-        # Prepare GeoJSON response
-        features = []
-        for row in rows:
-            feature = {
-                "type": "Feature",
-                "geometry": json.loads(row[0]),
-                "properties": {}
-            }
-            features.append(feature)
-
-        feature_collection = {
-            "type": "FeatureCollection",
-            "features": features
+    # Prepare GeoJSON response
+    features = []
+    for row in rows:
+        feature = {
+            "type": "Feature",
+            "geometry": json.loads(row[0]),
+            "properties": {}
         }
+        features.append(feature)
 
-        # Return GeoJSON response
-        return jsonify(feature_collection)
+    feature_collection = {
+        "type": "FeatureCollection",
+        "features": features
+    }
 
-    except psycopg2.Error as e:
-        return jsonify({"error": "Database error: " + str(e)}), 500
+    # Return GeoJSON response
+    return jsonify(feature_collection)
 
 if __name__ == "__main__":
     app.run(
